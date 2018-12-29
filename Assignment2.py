@@ -25,9 +25,20 @@ df = pd.read_table('~/Desktop/Data/sdd_archive.tab', low_memory=False)
 
 """
 Cleaning the data using numpy and pandas
-Guide obtained from https://realpython.com/python-data-cleaning-numpy-pandas/
+Guides obtained from https://realpython.com/python-data-cleaning-numpy-pandas/
+and https://machinelearningmastery.com/handle-missing-data-python/
 """
 
 # Select and keep only required variables
-df1 = df[['pupilwt', 'version', 'region', 'age1115', 'sex', 'ethnicgpr', 'dgtdcan', 'dgtdamp','dgtdlsd','dgtdecs', 'dgtdsem', 'dgtdpop','dgtdtrn', 'dgtdher', 'dgtdmsh','dgtdmth', 'dgtdcrk', 'dgtdcok', 'dgtdket', 'dgtdmph','dgtdnox', 'dgtdleg', 'devrstm', 'devrpsy', 'devropi', 'devrcla', 'devrps', 'ddgany']]
+df1 = df[['darchsn', 'pupilwt', 'version', 'region', 'age1115', 'sex', 'ethnicgpr', 'dgtdcan', 'dgtdamp','dgtdlsd','dgtdecs', 'dgtdsem', 'dgtdpop','dgtdtrn', 'dgtdher', 'dgtdmsh','dgtdmth', 'dgtdcrk', 'dgtdcok', 'dgtdket', 'dgtdmph','dgtdnox', 'dgtdleg', 'devrstm', 'devrpsy', 'devropi', 'devrcla', 'devrps', 'ddgany']]
 df1.head()
+
+# Deal with missing values
+
+# Mark -1, -8 and -9 values as missing or NaN
+df1[['pupilwt', 'version', 'region', 'age1115', 'sex', 'ethnicgpr', 'dgtdcan', 'dgtdamp','dgtdlsd','dgtdecs', 'dgtdsem', 'dgtdpop','dgtdtrn', 'dgtdher', 'dgtdmsh','dgtdmth', 'dgtdcrk', 'dgtdcok', 'dgtdket', 'dgtdmph','dgtdnox', 'dgtdleg', 'devrstm', 'devrpsy', 'devropi', 'devrcla', 'devrps', 'ddgany']] = df1[['pupilwt', 'version', 'region', 'age1115', 'sex', 'ethnicgpr', 'dgtdcan', 'dgtdamp','dgtdlsd','dgtdecs', 'dgtdsem', 'dgtdpop','dgtdtrn', 'dgtdher', 'dgtdmsh','dgtdmth', 'dgtdcrk', 'dgtdcok', 'dgtdket', 'dgtdmph','dgtdnox', 'dgtdleg', 'devrstm', 'devrpsy', 'devropi', 'devrcla', 'devrps', 'ddgany']].replace(-1, np.NaN)
+df1[['pupilwt', 'version', 'region', 'age1115', 'sex', 'ethnicgpr', 'dgtdcan', 'dgtdamp','dgtdlsd','dgtdecs', 'dgtdsem', 'dgtdpop','dgtdtrn', 'dgtdher', 'dgtdmsh','dgtdmth', 'dgtdcrk', 'dgtdcok', 'dgtdket', 'dgtdmph','dgtdnox', 'dgtdleg', 'devrstm', 'devrpsy', 'devropi', 'devrcla', 'devrps', 'ddgany']] = df1[['pupilwt', 'version', 'region', 'age1115', 'sex', 'ethnicgpr', 'dgtdcan', 'dgtdamp','dgtdlsd','dgtdecs', 'dgtdsem', 'dgtdpop','dgtdtrn', 'dgtdher', 'dgtdmsh','dgtdmth', 'dgtdcrk', 'dgtdcok', 'dgtdket', 'dgtdmph','dgtdnox', 'dgtdleg', 'devrstm', 'devrpsy', 'devropi', 'devrcla', 'devrps', 'ddgany']].replace(-8, np.NaN)
+df1[['pupilwt', 'version', 'region', 'age1115', 'sex', 'ethnicgpr', 'dgtdcan', 'dgtdamp','dgtdlsd','dgtdecs', 'dgtdsem', 'dgtdpop','dgtdtrn', 'dgtdher', 'dgtdmsh','dgtdmth', 'dgtdcrk', 'dgtdcok', 'dgtdket', 'dgtdmph','dgtdnox', 'dgtdleg', 'devrstm', 'devrpsy', 'devropi', 'devrcla', 'devrps', 'ddgany']] = df1[['pupilwt', 'version', 'region', 'age1115', 'sex', 'ethnicgpr', 'dgtdcan', 'dgtdamp','dgtdlsd','dgtdecs', 'dgtdsem', 'dgtdpop','dgtdtrn', 'dgtdher', 'dgtdmsh','dgtdmth', 'dgtdcrk', 'dgtdcok', 'dgtdket', 'dgtdmph','dgtdnox', 'dgtdleg', 'devrstm', 'devrpsy', 'devropi', 'devrcla', 'devrps', 'ddgany']].replace(-9, np.NaN)
+
+# Count the number of NaN values in each column
+print(df1.isnull().sum())

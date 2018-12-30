@@ -18,6 +18,9 @@ Import libraries and data set using Pandas to convert .tab file
 
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import scipy as sp
 
 # Read in the data set
 
@@ -119,4 +122,21 @@ CleanBin(df1)
 """
 Descriptive Statistics and Data Visualisation using Numpy and Seaborn
 """
+
+# Create plot to show distribution of wellbeing score
+sns.distplot(df1.ddwbscore)
+plt.title('Histogram of Wellbeing Scores')
+plt.xlabel('Wellbeing Scores')
+plt.ylabel('Estimated Density')
+plt.xticks((0,2,4,6,8,10,12,14,16,18,20))
+plt.xlim([1,20])
+plt.savefig('wellbeing_hist.jpg')
+plt.figure()
+
+# Calculate descriptive statistics
+
+wbmean = np.mean(df1.ddwbscore) # mean wellbeing score
+wbvar = np.var(df1.ddwbscore) # variance
+print(wbmean)
+print(wbvar)
     

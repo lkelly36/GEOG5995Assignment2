@@ -29,16 +29,35 @@ Guides obtained from https://realpython.com/python-data-cleaning-numpy-pandas/
 and https://machinelearningmastery.com/handle-missing-data-python/
 """
 
-# Select and keep only required variables
-df1 = df[['darchsn', 'pupilwt', 'version', 'region', 'age1115', 'sex', 'ethnicgpr', 'dgtdcan', 'dgtdamp','dgtdlsd','dgtdecs', 'dgtdsem', 'dgtdpop','dgtdtrn', 'dgtdher', 'dgtdmsh','dgtdmth', 'dgtdcrk', 'dgtdcok', 'dgtdket', 'dgtdmph','dgtdnox', 'dgtdleg', 'devrstm', 'devrpsy', 'devropi', 'devrcla', 'devrps', 'ddgany']]
-df1.head()
+# Select required variables and assign to df1
+df1 = df.loc[:,('pupilwt','age1115', 'sex', 'ddwbscore', 'ddwbcat', 'dgtdcan', 'dgtdamp','dgtdlsd','dgtdecs', 'dgtdcok', 'dgtdket', 'dgtdnox', 'dgtdleg', 'devrstm', 'devrpsy', 'devropi', 'devrcla', 'devrps', 'ddgany')]
 
-# Deal with missing values
+# Create functions for cleaning missing values
 
-# Mark -1, -8 and -9 values as missing or NaN
-df1[['pupilwt', 'version', 'region', 'age1115', 'sex', 'ethnicgpr', 'dgtdcan', 'dgtdamp','dgtdlsd','dgtdecs', 'dgtdsem', 'dgtdpop','dgtdtrn', 'dgtdher', 'dgtdmsh','dgtdmth', 'dgtdcrk', 'dgtdcok', 'dgtdket', 'dgtdmph','dgtdnox', 'dgtdleg', 'devrstm', 'devrpsy', 'devropi', 'devrcla', 'devrps', 'ddgany']] = df1[['pupilwt', 'version', 'region', 'age1115', 'sex', 'ethnicgpr', 'dgtdcan', 'dgtdamp','dgtdlsd','dgtdecs', 'dgtdsem', 'dgtdpop','dgtdtrn', 'dgtdher', 'dgtdmsh','dgtdmth', 'dgtdcrk', 'dgtdcok', 'dgtdket', 'dgtdmph','dgtdnox', 'dgtdleg', 'devrstm', 'devrpsy', 'devropi', 'devrcla', 'devrps', 'ddgany']].replace(-1, np.NaN)
-df1[['pupilwt', 'version', 'region', 'age1115', 'sex', 'ethnicgpr', 'dgtdcan', 'dgtdamp','dgtdlsd','dgtdecs', 'dgtdsem', 'dgtdpop','dgtdtrn', 'dgtdher', 'dgtdmsh','dgtdmth', 'dgtdcrk', 'dgtdcok', 'dgtdket', 'dgtdmph','dgtdnox', 'dgtdleg', 'devrstm', 'devrpsy', 'devropi', 'devrcla', 'devrps', 'ddgany']] = df1[['pupilwt', 'version', 'region', 'age1115', 'sex', 'ethnicgpr', 'dgtdcan', 'dgtdamp','dgtdlsd','dgtdecs', 'dgtdsem', 'dgtdpop','dgtdtrn', 'dgtdher', 'dgtdmsh','dgtdmth', 'dgtdcrk', 'dgtdcok', 'dgtdket', 'dgtdmph','dgtdnox', 'dgtdleg', 'devrstm', 'devrpsy', 'devropi', 'devrcla', 'devrps', 'ddgany']].replace(-8, np.NaN)
-df1[['pupilwt', 'version', 'region', 'age1115', 'sex', 'ethnicgpr', 'dgtdcan', 'dgtdamp','dgtdlsd','dgtdecs', 'dgtdsem', 'dgtdpop','dgtdtrn', 'dgtdher', 'dgtdmsh','dgtdmth', 'dgtdcrk', 'dgtdcok', 'dgtdket', 'dgtdmph','dgtdnox', 'dgtdleg', 'devrstm', 'devrpsy', 'devropi', 'devrcla', 'devrps', 'ddgany']] = df1[['pupilwt', 'version', 'region', 'age1115', 'sex', 'ethnicgpr', 'dgtdcan', 'dgtdamp','dgtdlsd','dgtdecs', 'dgtdsem', 'dgtdpop','dgtdtrn', 'dgtdher', 'dgtdmsh','dgtdmth', 'dgtdcrk', 'dgtdcok', 'dgtdket', 'dgtdmph','dgtdnox', 'dgtdleg', 'devrstm', 'devrpsy', 'devropi', 'devrcla', 'devrps', 'ddgany']].replace(-9, np.NaN)
+def CleanData(df1):
+    nan_values = [-1,-8,-9] # These variables have values missing at -1,-8,-9
+    df1.sex.replace(nan_values, np.nan, inplace=True)
+    df1.dgtdcan.replace(nan_values, np.nan, inplace=True)
+    df1.dgtdamp.replace(nan_values, np.nan, inplace=True)
+    df1.dgtdlsd.replace(nan_values, np.nan, inplace=True)
+    df1.dgtdecs.replace(nan_values, np.nan, inplace=True)
+    df1.dgtdcok.replace(nan_values, np.nan, inplace=True)
+    df1.dgtdket.replace(nan_values, np.nan, inplace=True)
+    df1.dgtdnox.replace(nan_values, np.nan, inplace=True)
+    df1.dgtdleg.replace(nan_values, np.nan, inplace=True)
+    df1.devrstm.replace(nan_values, np.nan, inplace=True)
+    df1.devrpsy.replace(nan_values, np.nan, inplace=True)
+    df1.devropi.replace(nan_values, np.nan, inplace=True)
+    df1.devrcla.replace(nan_values, np.nan, inplace=True)
+    df1.devrrps.replace(nan_values, np.nan, inplace=True)
+    df1.ddgany.replace(nan_values, np.nan, inplace=True)
+    
+def CleanWell(df1):
+    nan_values = [-8,-9,-98] # These variables have values missing at -8,-9,-98
+    df1.ddwbscore.replace(nan_values, np.nan, inplace=True)
+    df1.ddwbcat.replace(nan_values, np.nan, inplace=True)
 
-# Count the number of NaN values in each column
-print(df1.isnull().sum())
+# Run functions
+CleanData(df1)
+CleanWell(df1)
+    

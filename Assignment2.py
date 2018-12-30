@@ -25,7 +25,8 @@ df = pd.read_table('~/Desktop/Data/sdd_archive.tab', low_memory=False)
 
 """
 Cleaning the data using numpy and pandas
-Guides obtained from https://realpython.com/python-data-cleaning-numpy-pandas/
+Guides obtained from http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
+and https://realpython.com/python-data-cleaning-numpy-pandas/
 and https://machinelearningmastery.com/handle-missing-data-python/
 """
 
@@ -60,4 +61,58 @@ def CleanWell(df1):
 # Run functions
 CleanData(df1)
 CleanWell(df1)
+
+# Create functions for binary variables
+
+# Create functions for binary variables
+
+def CleanBin(df1):
+   
+    # Replace sex variables
+    df1.sex.replace(1.0, 'male', inplace=True)
+    df1.sex.replace(2.0, 'female', inplace=True)
+    
+    # Replace ever tried drug variables
+    df1.dgtdcan.replace(1.0, 'yes', inplace=True)
+    df1.dgtdcan.replace(2.0, 'no', inplace=True)
+    df1.dgtdamp.replace(1.0, 'yes', inplace=True)
+    df1.dgtdamp.replace(2.0, 'no', inplace=True)
+    df1.dgtdlsd.replace(1.0, 'yes', inplace=True)
+    df1.dgtdlsd.replace(2.0, 'no', inplace=True)
+    df1.dgtdecs.replace(1.0, 'yes', inplace=True)
+    df1.dgtdecs.replace(2.0, 'no', inplace=True)
+    df1.dgtdcok.replace(1.0, 'yes', inplace=True)
+    df1.dgtdcok.replace(2.0, 'no', inplace=True)
+    df1.dgtdket.replace(1.0, 'yes', inplace=True)
+    df1.dgtdket.replace(2.0, 'no', inplace=True)
+    df1.dgtdnox.replace(1.0, 'yes', inplace=True)
+    df1.dgtdnox.replace(2.0, 'no', inplace=True)
+    df1.dgtdleg.replace(1.0, 'yes', inplace=True)
+    df1.dgtdleg.replace(2.0, 'no', inplace=True)
+    
+    # Replace ever tried drug group variables
+    df1.devrstm.replace(1.0, 'yes', inplace=True)
+    df1.devrstm.replace(2.0, 'no', inplace=True)
+    df1.devrpsy.replace(1.0, 'yes', inplace=True)
+    df1.devrpsy.replace(2.0, 'no', inplace=True)
+    df1.devropi.replace(1.0, 'yes', inplace=True)
+    df1.devropi.replace(2.0, 'no', inplace=True)
+    df1.devrcla.replace(1.0, 'yes', inplace=True)
+    df1.devrcla.replace(2.0, 'no', inplace=True)
+    df1.devrps.replace(1.0, 'yes', inplace=True)
+    df1.devrps.replace(2.0, 'no', inplace=True)
+    
+    # Replace ever tried any drug
+    df1.ddgany.replace(1.0, 'yes', inplace=True)
+    df1.ddgany.replace(2.0, 'no', inplace=True)
+    
+    # Replace wellbeing category
+    df1.ddwbcat.replace(1.0, 'low wellbeing', inplace=True)
+    df1.ddwbcat.replace(2.0, 'not low wellbeing', inplace=True)
+
+# Run functions
+
+CleanData(df1)
+CleanWell(df1)
+CleanBin(df1)
     

@@ -107,10 +107,6 @@ wbvar = np.var(df1.ddwbscore) # variance
 print(wbmean)
 print(wbvar)
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 56e42bd731f8e13cd130df4aa25d1c6b56256153
 # Bar chart of drug use on wellbeing
 sns.barplot(x='ddgany', y='ddwbscore', hue='sex', data=df1)
 #Set labels, save and show plot
@@ -121,9 +117,7 @@ plt.savefig('../bar_wb_drug.jpg',format='jpg')
 plt.figure()
 
 """
-Linear regression showing drug use and gender as predictors of wellbeing.
-Using seaborn for visualisation and statsmodels for regression.
-Documentation: https://www.statsmodels.org/dev/generated/statsmodels.regression.linear_model.OLS.html
+Linear regression showing drug use and gender as predictors of wellbeing using seaborn.
 """
 
 # Print regression model
@@ -131,7 +125,9 @@ model = ols("ddwbscore ~ ddgany + sex", df1).fit()
 print(model.summary())
 
 """
-Linear regression showing use of different drugs as predictors of wellbeing.
+Linear regression showing use of different drugs as predictors of wellbeing using stats models.
+Documentation: https://www.statsmodels.org/dev/generated/statsmodels.regression.linear_model.OLS.html
+
 """
 
 # As more variables, quicker to create X variable
@@ -159,8 +155,7 @@ result_lin2=linear_model2.fit()
 print(result_lin2.summary2()) # Print summary
 
 """
-Final linear regression model showing use of which drug categories has most
-substantial effect on wellbeing.
+Final linear regression model showing use of which drug categories has most substantial effect on wellbeing.
 """
 # Remove insignificant variables from model
 X = [df1.devrstm, df1.devrpsy, df1.devropi, df1.devrcla, df1.devrps]

@@ -100,12 +100,20 @@ Descriptive Statistics and Data Visualisation using Seaborn
 Documentation: https://www.seaborn.pydata.org
 """
 
-# Calculate some descriptive statistics
-
+# Calculate some descriptive statistics for outcome variable
 wbmean = np.mean(df1.ddwbscore) # mean wellbeing score
 wbvar = np.var(df1.ddwbscore) # variance
 print(wbmean)
 print(wbvar)
+
+# Produce descriptives for all drug use data
+pd.set_option('display.max_columns', 20) # change pandas print options to show whole output
+
+desc_list = [df1.describe()] + [df1.groupby([c])[df1.columns[0]].count() 
+for c in df1.columns if df1[c].dtype == 'object']
+for i in desc_list:
+    print(i)
+    print()
 
 # Bar chart of drug use on wellbeing
 sns.barplot(x='ddgany', y='ddwbscore', hue='sex', data=df1)

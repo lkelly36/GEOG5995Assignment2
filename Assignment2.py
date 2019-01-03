@@ -18,7 +18,7 @@ https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=8320
 
 """
 Import libraries and data set using Pandas to convert .tab file
-https://www.pandas.pydata.org
+Documentation: https://www.pandas.pydata.org
 """
 # Import required libraries
 
@@ -34,17 +34,15 @@ from statsmodels.formula.api import ols
 df = pd.read_table('~/Desktop/Data/sdd_archive.tab', low_memory=False)
 
 """
-Cleaning the data using numpy and pandas
+Cleaning the data using Numpy (https://www.numpy.org) and Pandas
 Guides obtained from http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
 and https://realpython.com/python-data-cleaning-numpy-pandas/
 and https://machinelearningmastery.com/handle-missing-data-python/
 """
 
 # Select required variables and assign to df1
-df1 = df.loc[:,('pupilwt','age1115', 'sex', 'ddwbscore', 'ddwbcat', 'dgtdcan', 
-                'dgtdamp','dgtdlsd','dgtdecs', 'dgtdcok', 'dgtdket', 'dgtdnox',
-                'dgtdleg', 'devrstm', 'devrpsy', 'devropi', 'devrcla', 
-                'devrps', 'ddgany')]
+df1 = df.loc[:,('pupilwt','age1115', 'sex', 'ddwbscore', 'ddwbcat', 'dgtdcan', 'dgtdamp','dgtdlsd','dgtdecs', 'dgtdcok', 
+                'dgtdket', 'dgtdnox', 'dgtdleg', 'devrstm', 'devrpsy', 'devropi', 'devrcla', 'devrps', 'ddgany')]
 
 # Create functions for cleaning missing values
 
@@ -99,17 +97,20 @@ CleanBin(df1)
 
 """
 Descriptive Statistics and Data Visualisation using Seaborn
-https://www.seaborn.pydata.org
+Documentation: https://www.seaborn.pydata.org
 """
 
-# Calculate descriptive statistics
+# Calculate some descriptive statistics
 
 wbmean = np.mean(df1.ddwbscore) # mean wellbeing score
 wbvar = np.var(df1.ddwbscore) # variance
 print(wbmean)
 print(wbvar)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 56e42bd731f8e13cd130df4aa25d1c6b56256153
 # Bar chart of drug use on wellbeing
 sns.barplot(x='ddgany', y='ddwbscore', hue='sex', data=df1)
 #Set labels, save and show plot
@@ -121,8 +122,8 @@ plt.figure()
 
 """
 Linear regression showing drug use and gender as predictors of wellbeing.
-Using seaborn for visualisation and statsmodels for regression:
-https://www.statsmodels.org/dev/generated/statsmodels.regression.linear_model.OLS.html
+Using seaborn for visualisation and statsmodels for regression.
+Documentation: https://www.statsmodels.org/dev/generated/statsmodels.regression.linear_model.OLS.html
 """
 
 # Print regression model
@@ -134,8 +135,7 @@ Linear regression showing use of different drugs as predictors of wellbeing.
 """
 
 # As more variables, quicker to create X variable
-X = [df1.dgtdcan, df1.dgtdamp, df1.dgtdlsd, df1.dgtdecs, df1.dgtdcok, 
-     df1.dgtdket, df1.dgtdnox, df1.dgtdleg]
+X = [df1.dgtdcan, df1.dgtdamp, df1.dgtdlsd, df1.dgtdecs, df1.dgtdcok, df1.dgtdket, df1.dgtdnox, df1.dgtdleg]
 X = np.array(X)
 X = X.T
 X = sm.add_constant(X) # Include constant in regression
@@ -148,8 +148,7 @@ result_lin=linear_model.fit()
 print(result_lin.summary2())
 
 # Remove insignificant variables from model
-X = [df1.dgtdcan, df1.dgtdamp, df1.dgtdlsd, df1.dgtdecs, df1.dgtdcok, 
-     df1.dgtdket, df1.dgtdleg]
+X = [df1.dgtdcan, df1.dgtdamp, df1.dgtdlsd, df1.dgtdecs, df1.dgtdcok, df1.dgtdket, df1.dgtdleg]
 X = np.array(X)
 X = X.T
 X = sm.add_constant(X) # Include constant

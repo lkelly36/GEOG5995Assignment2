@@ -109,13 +109,6 @@ wbvar = np.var(df1.ddwbscore) # variance
 print(wbmean)
 print(wbvar)
 
-# Create matrix with variables of interest and assign to array
-#X = [df1.ddwbscore, df1.ddwbcat, df1.dgtdcan, df1.dgtdamp, df1.dgtdlsd, 
- #    df1.dgtdecs, df1.dgtdcok, df1.dgtdket, df1.dgtdnox, df1.dgtdleg, 
-  #   df1.devrstm, df1.devrpsy, df1.devropi, df1.devrcla, df1.devrps, df1.ddgany]
-# Get sample means
-#xbar = np.mean(X,1)
-#print(xbar)
 
 # Bar chart of drug use on wellbeing
 sns.barplot(x='ddgany', y='ddwbscore', hue='sex', data=df1)

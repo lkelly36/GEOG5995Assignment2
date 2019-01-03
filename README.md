@@ -1,4 +1,4 @@
-# GEOG5995Assignment2
+# GEOG5995 Assignment 2
 
 This repository consists of Python code which has been written in order to satisy the requirements of Assignment 2 in the 
 GEOG5995 Programming for Social Scientists course at University of Leeds.

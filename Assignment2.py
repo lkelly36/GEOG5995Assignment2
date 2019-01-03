@@ -34,7 +34,10 @@ and https://machinelearningmastery.com/handle-missing-data-python/
 """
 
 # Select required variables and assign to df1
-df1 = df.loc[:,('pupilwt','age1115', 'sex', 'ddwbscore', 'ddwbcat', 'dgtdcan', 'dgtdamp','dgtdlsd','dgtdecs', 'dgtdcok', 'dgtdket', 'dgtdnox', 'dgtdleg', 'devrstm', 'devrpsy', 'devropi', 'devrcla', 'devrps', 'ddgany')]
+df1 = df.loc[:,('pupilwt','age1115', 'sex', 'ddwbscore', 'ddwbcat', 'dgtdcan', 
+                'dgtdamp','dgtdlsd','dgtdecs', 'dgtdcok', 'dgtdket', 'dgtdnox',
+                'dgtdleg', 'devrstm', 'devrpsy', 'devropi', 'devrcla', 
+                'devrps', 'ddgany')]
 
 # Create functions for cleaning missing values
 
@@ -65,7 +68,15 @@ def CleanWell(df1):
 CleanData(df1)
 CleanWell(df1)
 
-# Create functions for binary variables
+# Change NaNs to average mean
+df1 = df1.fillna(df1.mean())
+df1.head()
+
+# Check datatype
+df1.info()
+
+# Change floats to int
+df1 = df1.astype(int)
 
 # Create functions for binary variables
 
@@ -113,25 +124,25 @@ def CleanBin(df1):
     df1.ddwbcat.replace(1.0, 'low wellbeing', inplace=True)
     df1.ddwbcat.replace(2.0, 'not low wellbeing', inplace=True)
 
-# Run functions
-
-CleanData(df1)
-CleanWell(df1)
+# Run function for binary variables
 CleanBin(df1)
+
+# Check data
+df1.head()
 
 """
 Descriptive Statistics and Data Visualisation using Numpy and Seaborn
 """
 
 # Create plot to show distribution of wellbeing score
-sns.distplot(df1.ddwbscore)
-plt.title('Histogram of Wellbeing Scores')
-plt.xlabel('Wellbeing Scores')
-plt.ylabel('Estimated Density')
-plt.xticks((0,2,4,6,8,10,12,14,16,18,20))
-plt.xlim([1,20])
-plt.savefig('wellbeing_hist.jpg')
-plt.figure()
+#sns.distplot(df1.ddwbscore)
+#plt.title('Histogram of Wellbeing Scores')
+#plt.xlabel('Wellbeing Scores')
+#plt.ylabel('Estimated Density')
+#plt.xticks((0,2,4,6,8,10,12,14,16,18,20))
+#plt.xlim([0,20])
+#plt.savefig('wellbeing_hist.jpg')
+#plt.figure()
 
 # Calculate descriptive statistics
 
@@ -139,4 +150,26 @@ wbmean = np.mean(df1.ddwbscore) # mean wellbeing score
 wbvar = np.var(df1.ddwbscore) # variance
 print(wbmean)
 print(wbvar)
+
+# Set parameters for visualising central tendency of wellbeing scores
+xk,yk = ax.get_lines()[0].get_data()
+mm = np.mean(df1.ddwbscore)
+md = np.median(df1.ddwbscore)
+mo = xk[np.argmax(yk)]
+
+# Plot central tendency of wellbeing scores - including mean, median and KDE estimated mode
+plt.figure(figsize=(5,2))
+plt.plot(xk,yk,'-k')
+xx = np.ones(2)
+yy = np.array([0, 0.8])
+plt.plot(mm*xx,yy,'--b',label='Mean')
+plt.plot(md*xx,yy,'-.r',label='Median')
+plt.plot(mo*xx,yy,':m',label='KDE-estimated Mode')
+plt.xlabel('Wellbeing Score')
+plt.ylabel('Estimated Density')
+plt.xlim([0,20])
+plt.legend()
+plt.tight_layout()
+plt.savefig('wellbeing_cent_tend.jpg')
+plt.show()
     

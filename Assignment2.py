@@ -102,8 +102,8 @@ CleanBin(df1)
 df1.head()
 
 """
-Descriptive Statistics and Data Visualisation using Seaborn
-Documentation: https://www.seaborn.pydata.org
+Descriptive Statistics and Data Visualisation using Seaborn and Matplotlib
+Documentation: https://www.seaborn.pydata.org and https://matplotlib.org/
 """
 
 # Calculate some descriptive statistics for outcome variable
@@ -234,3 +234,10 @@ X = sm.add_constant(X) # Include constant in regression
 logit_model2=sm.Logit(y,X, weight=df1.pupilwt)
 result=logit_model2.fit()
 print(result.summary2())
+
+"""
+Write dataframe to excel file using Pandas
+https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.to_excel.html
+"""
+
+df1.to_excel('sdd_archive_python.xlsx', sheet_name='sheet1', index=False)

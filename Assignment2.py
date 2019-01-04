@@ -41,7 +41,7 @@ and https://machinelearningmastery.com/handle-missing-data-python/
 """
 
 # Select required variables and assign to df1
-df1 = df.loc[:,('pupilwt','age1115', 'sex', 'ddwbscore', 'ddwbcat', 'dgtdcan', 'dgtdamp','dgtdlsd','dgtdecs', 'dgtdcok', 
+df1 = df.loc[:,('pupilwt', 'sex', 'ddwbscore', 'ddwbcat', 'dgtdcan', 'dgtdamp','dgtdlsd','dgtdecs', 'dgtdcok', 
                 'dgtdket', 'dgtdnox', 'dgtdleg', 'ddgany')]
 
 # Create functions for cleaning missing values

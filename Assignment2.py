@@ -42,7 +42,7 @@ and https://machinelearningmastery.com/handle-missing-data-python/
 
 # Select required variables and assign to df1
 df1 = df.loc[:,('pupilwt','age1115', 'sex', 'ddwbscore', 'ddwbcat', 'dgtdcan', 'dgtdamp','dgtdlsd','dgtdecs', 'dgtdcok', 
-                'dgtdket', 'dgtdnox', 'dgtdleg', 'devrstm', 'devrpsy', 'devropi', 'devrcla', 'devrps', 'ddgany')]
+                'dgtdket', 'dgtdnox', 'dgtdleg', 'ddgany')]
 
 # Create functions for cleaning missing values
 
@@ -57,11 +57,6 @@ def CleanData(df1):
     df1.dgtdket.replace(nan_values, np.nan, inplace=True)
     df1.dgtdnox.replace(nan_values, np.nan, inplace=True)
     df1.dgtdleg.replace(nan_values, np.nan, inplace=True)
-    df1.devrstm.replace(nan_values, np.nan, inplace=True)
-    df1.devrpsy.replace(nan_values, np.nan, inplace=True)
-    df1.devropi.replace(nan_values, np.nan, inplace=True)
-    df1.devrcla.replace(nan_values, np.nan, inplace=True)
-    df1.devrps.replace(nan_values, np.nan, inplace=True)
     df1.ddgany.replace(nan_values, np.nan, inplace=True)
     
 def CleanWell(df1):
@@ -83,17 +78,28 @@ df1 = df1.astype(int)
 # Check data
 df1.head()
 
-# Define binary sex  and drug variables
+# Define binary sex, wellbeing and drug variables as 0 and 1
 
 def CleanBin(df1):
-    # Replace sex variables
-    df1.sex.replace(1.0, 'male', inplace=True)
-    df1.sex.replace(2.0, 'female', inplace=True)
-    # Replace ever tried any drug
-    df1.ddgany.replace(1.0, 'yes', inplace=True)
-    df1.ddgany.replace(2.0, 'no', inplace=True)
+    # Replace sex variables 1=male, 0=female
+    df1.sex.replace(2.0, 0, inplace=True)
+    # Replace ever tried any drug 1=yes, 2=no
+    df1.ddgany.replace(2.0, 0, inplace=True)
+    # Replace wellbeing category variable
+    df1.ddwbcat.replace(2.0, 0, inplace=True)
+    # Replace drug variables 1=yes, 2=no
+    df1.dgtdcan.replace(2.0, 0, inplace=True)
+    df1.dgtdamp.replace(2.0, 0, inplace=True)
+    df1.dgtdlsd.replace(2.0, 0, inplace=True)
+    df1.dgtdecs.replace(2.0, 0, inplace=True)
+    df1.dgtdcok.replace(2.0, 0, inplace=True)
+    df1.dgtdket.replace(2.0, 0, inplace=True)
+    df1.dgtdnox.replace(2.0, 0, inplace=True)
+    df1.dgtdleg.replace(2.0, 0, inplace=True)
 
+# Run function and check data
 CleanBin(df1)
+df1.head()
 
 """
 Descriptive Statistics and Data Visualisation using Seaborn
@@ -114,6 +120,18 @@ for c in df1.columns if df1[c].dtype == 'object']
 for i in desc_list:
     print(i)
     print()
+    
+# Produce crosstab for drug use and wellbeing category
+pd.crosstab(df1['ddgany'], df1['ddwbcat'])
+# Produce crosstab for use of each individual drug and wellbeing category
+pd.crosstab(df1['ddwbcat'], df1['dgtdcan'])
+pd.crosstab(df1['ddwbcat'], df1['dgtdamp'])
+pd.crosstab(df1['ddwbcat'], df1['dgtdlsd'])
+pd.crosstab(df1['ddwbcat'], df1['dgtdecs'])
+pd.crosstab(df1['ddwbcat'], df1['dgtdcok'])
+pd.crosstab(df1['ddwbcat'], df1['dgtdket'])
+pd.crosstab(df1['ddwbcat'], df1['dgtdnox'])
+pd.crosstab(df1['ddwbcat'], df1['dgtdleg'])
 
 # Bar chart of drug use on wellbeing
 sns.barplot(x='ddgany', y='ddwbscore', hue='sex', data=df1)
@@ -122,6 +140,16 @@ plt.title('Relationship between drug use and wellbeing')
 plt.xlabel('Ever used any drugs')
 plt.ylabel('Wellbeing Scores')
 plt.savefig('../bar_wb_drug.jpg',format='jpg')
+plt.figure()
+
+# Regression plots
+
+# Ever tried cannabis
+sns.regplot(x='dgtdcan', y='ddwbscore', data=df1)
+plt.title('Relationship between cannabis use and wellbeing')
+plt.xlabel('Ever tried cannabis')
+plt.ylabel('Wellbeing Scores')
+plt.savefig('../cannabis_wb.jpg',format='jpg')
 plt.figure()
 
 """
@@ -133,13 +161,13 @@ model = ols("ddwbscore ~ ddgany + sex", df1).fit()
 print(model.summary())
 
 """
-Linear regression showing use of different drugs as predictors of wellbeing using stats models.
+Linear regression showing use of different drugs as predictors of wellbeing scores using stats models.
 Documentation: https://www.statsmodels.org/dev/generated/statsmodels.regression.linear_model.OLS.html
 
 """
 
-# As more variables, quicker to create X variable
-X = [df1.dgtdcan, df1.dgtdamp, df1.dgtdlsd, df1.dgtdecs, df1.dgtdcok, df1.dgtdket, df1.dgtdnox, df1.dgtdleg]
+# Create X variable and control for sex
+X = [df1.sex, df1.dgtdcan, df1.dgtdamp, df1.dgtdlsd, df1.dgtdecs, df1.dgtdcok, df1.dgtdket, df1.dgtdnox, df1.dgtdleg]
 X = np.array(X)
 X = X.T
 X = sm.add_constant(X) # Include constant in regression
@@ -152,7 +180,7 @@ result_lin=linear_model.fit()
 print(result_lin.summary2())
 
 # Remove insignificant variables from model
-X = [df1.dgtdcan, df1.dgtdamp, df1.dgtdlsd, df1.dgtdecs, df1.dgtdcok, df1.dgtdket, df1.dgtdleg]
+X = [df1.sex, df1.dgtdcan, df1.dgtdamp, df1.dgtdlsd, df1.dgtdecs, df1.dgtdcok, df1.dgtdket, df1.dgtdleg]
 X = np.array(X)
 X = X.T
 X = sm.add_constant(X) # Include constant
@@ -163,15 +191,41 @@ result_lin2=linear_model2.fit()
 print(result_lin2.summary2()) # Print summary
 
 """
-Final linear regression model showing use of which drug categories has most substantial effect on wellbeing.
+Logistic regression model showing use of different drugs as predictors of wellbeing category using stats models.
+Documentation: https://www.statsmodels.org/dev/generated/statsmodels.discrete.discrete_model.Logit.html
 """
-# Remove insignificant variables from model
-X = [df1.devrstm, df1.devrpsy, df1.devropi, df1.devrcla, df1.devrps]
+
+# Define X variable
+X = [df1.sex, df1.dgtdcan, df1.dgtdamp, df1.dgtdlsd, df1.dgtdecs, df1.dgtdcok, df1.dgtdket, df1.dgtdnox, df1.dgtdleg]
 X = np.array(X)
 X = X.T
-X = sm.add_constant(X) # Include constant
+X = sm.add_constant(X) # Include constant in regression
+# y variable
+y = df1.ddwbcat
 
-# Run second linear regression model without insignificant variables
-linear_model3=sm.OLS(y,X)
-result_lin3=linear_model3.fit()
-print(result_lin3.summary2()) # Print summary
+# Run logistic regression model
+logit_model=sm.Logit(y,X)
+result=logit_model.fit()
+print(result.summary2())
+
+# Redefine X variable, removing insignificant variables from previous model and controlling for sex
+X = [df1.sex, df1.dgtdlsd, df1.dgtdecs, df1.dgtdcok, df1.dgtdket, df1.dgtdnox, df1.dgtdleg]
+X = np.array(X)
+X = X.T
+X = sm.add_constant(X) # Include constant in regression
+
+# Run logistic regression model again
+logit_model2=sm.Logit(y,X)
+result=logit_model2.fit()
+print(result.summary2())
+
+# Define X without insignificant variables for final time
+X = [df1.sex, df1.dgtdlsd, df1.dgtdcok, df1.dgtdket, df1.dgtdnox]
+X = np.array(X)
+X = X.T
+X = sm.add_constant(X) # Include constant in regression
+
+# Final fit and run logit model
+logit_model2=sm.Logit(y,X)
+result=logit_model2.fit()
+print(result.summary2())

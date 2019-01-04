@@ -133,23 +133,28 @@ pd.crosstab(df1['ddwbcat'], df1['dgtdket'])
 pd.crosstab(df1['ddwbcat'], df1['dgtdnox'])
 pd.crosstab(df1['ddwbcat'], df1['dgtdleg'])
 
-# Bar chart of drug use on wellbeing
-sns.barplot(x='ddgany', y='ddwbscore', hue='sex', data=df1)
+# Count plot of drug use split by gender
+ax = sns.countplot(x='ddgany', hue='sex', data=df1)
+# Change handle labels
+handles = ax.get_legend_handles_labels()[0]
+ax.legend(handles, ['Female', 'Male'], title='Gender')
 #Set labels, save and show plot
-plt.title('Relationship between drug use and wellbeing')
+plt.title('Number of pupils with reported drug use where 0=no and 1=yes')
 plt.xlabel('Ever used any drugs')
-plt.ylabel('Wellbeing Scores')
-plt.savefig('../bar_wb_drug.jpg',format='jpg')
+plt.ylabel('Count')
+plt.savefig('../count_drug.jpg',format='jpg')
 plt.figure()
 
-# Regression plots
-
-# Ever tried cannabis
-sns.regplot(x='dgtdcan', y='ddwbscore', data=df1)
-plt.title('Relationship between cannabis use and wellbeing')
-plt.xlabel('Ever tried cannabis')
-plt.ylabel('Wellbeing Scores')
-plt.savefig('../cannabis_wb.jpg',format='jpg')
+# Count plot of wellbeing scores split by drug use
+ax1 = sns.countplot(x='ddwbscore', hue='ddgany', data=df1)
+# Change handle labels
+handles = ax.get_legend_handles_labels()[0]
+ax1.legend(handles, ['No', 'Yes'], title='Ever Used Drugs?')
+# Add labels and save
+plt.title('Relationship between drug use and wellbeing')
+plt.xlabel('Wellbeing Scores')
+plt.ylabel('Count')
+plt.savefig('../wb_drug.jpg',format='jpg')
 plt.figure()
 
 """

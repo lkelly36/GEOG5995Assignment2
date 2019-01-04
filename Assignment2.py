@@ -162,7 +162,7 @@ Linear regression showing drug use and gender as predictors of wellbeing using s
 """
 
 # Print regression model
-model = ols("ddwbscore ~ ddgany + sex", df1).fit()
+model = ols("ddwbscore ~ ddgany + sex", df1, weight=df1.pupilwt).fit()
 print(model.summary())
 
 """
@@ -180,7 +180,7 @@ X = sm.add_constant(X) # Include constant in regression
 y = df1.ddwbscore
 
 # Run linear regression model and print summary
-linear_model=sm.OLS(y,X)
+linear_model=sm.OLS(y,X, weight=df1.pupilwt)
 result_lin=linear_model.fit()
 print(result_lin.summary2())
 
@@ -191,7 +191,7 @@ X = X.T
 X = sm.add_constant(X) # Include constant
 
 # Run second linear regression model without insignificant variables
-linear_model2=sm.OLS(y,X)
+linear_model2=sm.OLS(y,X, weight=df1.pupilwt)
 result_lin2=linear_model2.fit()
 print(result_lin2.summary2()) # Print summary
 
@@ -209,7 +209,7 @@ X = sm.add_constant(X) # Include constant in regression
 y = df1.ddwbcat
 
 # Run logistic regression model
-logit_model=sm.Logit(y,X)
+logit_model=sm.Logit(y,X, weight=df1.pupilwt)
 result=logit_model.fit()
 print(result.summary2())
 
@@ -220,7 +220,7 @@ X = X.T
 X = sm.add_constant(X) # Include constant in regression
 
 # Run logistic regression model again
-logit_model2=sm.Logit(y,X)
+logit_model2=sm.Logit(y,X, weight=df1.pupilwt)
 result=logit_model2.fit()
 print(result.summary2())
 
@@ -231,6 +231,6 @@ X = X.T
 X = sm.add_constant(X) # Include constant in regression
 
 # Final fit and run logit model
-logit_model2=sm.Logit(y,X)
+logit_model2=sm.Logit(y,X, weight=df1.pupilwt)
 result=logit_model2.fit()
 print(result.summary2())
